@@ -18,7 +18,7 @@ src = $(addprefix src/,\
 CPPFLAGS = -std=c++11 -fno-exceptions
 CPPFLAGS += -Os -Wall
 CPPFLAGS += $(shell $(NWLINK) eadk-cflags)
-CPPFLAGS += -D__RODATA_EADK_API_LEVEL__=\"1.0\" -D__RODATA_EADK_APP_NAME__=\"NAME\"
+CPPFLAGS += -D__RODATA_EADK_API_LEVEL__=\"1.0\" -D__RODATA_EADK_APP_NAME__=\"DOOM\"
 LDFLAGS = -Wl,--relocatable
 LDFLAGS += -nostartfiles
 LDFLAGS += --specs=nano.specs
@@ -37,10 +37,10 @@ LDFLAGS += -flinker-output=nolto-rel
 endif
 
 .PHONY: build
-build: $(BUILD_DIR)/NAME.bin
+build: $(BUILD_DIR)/DOOM.bin
 
 .PHONY: run
-run: $(BUILD_DIR)/NAME.nwa
+run: $(BUILD_DIR)/DOOM.nwa
 	@echo "INSTALL $<"
 	$(Q) $(NWLINK) install-nwa $<
 
@@ -48,9 +48,9 @@ $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.nwa
 	@echo "BIN     $@"
 	$(Q) $(NWLINK) nwa-bin $< $@
 
-$(BUILD_DIR)/NAME.nwa: $(call object_for,$(src)) $(BUILD_DIR)/icon.o
+$(BUILD_DIR)/DOOM.nwa: $(call object_for,$(src)) $(BUILD_DIR)/icon.o
 	@echo "LD      $@"
-	$(Q) $(CC) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
+	$(Q) $(CC) $(CPPFLAGS) $(LDFLAGS) $^ -o $@ -lm
 
 $(addprefix $(BUILD_DIR)/,%.o): %.cpp | $(BUILD_DIR)
 	@echo "CXX     $^"
